@@ -1,4 +1,4 @@
-package main
+package algorithm
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ func binary(slice []int, target int)(int, error){
 
 	for {
 		/*
-		the main point: make sure high and low legal
+		the algorithm point: make sure high and low legal
 		*/
 		if high < low || low >= length{
 			return 0, errors.New("target not found")

@@ -1,4 +1,4 @@
-package main
+package algorithm
 
 import "fmt"
 
@@ -14,6 +14,7 @@ func quickSort(s []int, l int, r int){
 			for (i < j) && (s[j] >= tmp){
 				j--
 			}
+			//右侧第一个小于tmp的数
 			if i < j {
 				s[i] = s[j]
 				i++
@@ -21,6 +22,7 @@ func quickSort(s []int, l int, r int){
 			for (i < j) && (s[i] <= tmp){
 				i++
 			}
+			//左侧第一个大于tmp的数
 			if i < j{
 				s[j] = s[i]
 				j--
