@@ -3,9 +3,33 @@ package algorithm
 import "fmt"
 
 
+type BiTree interface{
+	SetValue(data int)
+	SetLeft(v int)
+	SetRight(v int)
+	PreBiTree()
+	PostBiTree()
+	InBiTree()
+	Layers() int
+	GetLeft()*BiTreeNode
+	BreathTraverse()
+}
+
 type BiTreeNode struct{
 	data int
-	Left, Right *BiTreeNode
+	left, right *BiTreeNode
+}
+
+func NewBiTree() BiTree{
+	return &BiTreeNode{}
+}
+
+func (node *BiTreeNode)GetLeft()*BiTreeNode{
+	if node == nil{
+		fmt.Println("nil.node ignored.")
+		return nil
+	}
+	return node.left
 }
 
 func (node *BiTreeNode)SetValue(data int){
@@ -16,89 +40,89 @@ func (node *BiTreeNode)SetValue(data int){
 	node.data = data
 }
 
-func (node *BiTreeNode)SetLeft(n *BiTreeNode){
+func (node *BiTreeNode)SetLeft(v int){
 	if node == nil{
-		fmt.Println("setting Left to nil.node ignored.")
+		fmt.Println("setting left to nil.node ignored.")
 		return
 	}
-	node.Left = n
+	node.left = &BiTreeNode{data: v}
 }
 
-func (node *BiTreeNode)SetRight(n *BiTreeNode){
+func (node *BiTreeNode)SetRight(v int){
 	if node == nil{
 		fmt.Println("setting right to nil.node ignored.")
 		return
 	}
-	node.Right = n
+	node.right = &BiTreeNode{data: v}
 }
 
 func (node *BiTreeNode)printNodeValue(){
 	fmt.Print(node.data, " ")
 }
 
-func CreateBiTree() (*BiTreeNode, error){
-	var input int
-	fmt.Println("CreateBiTree, plz input:")
-	num, err := fmt.Scanf("%d", &input)
-	if err !=nil{
-		return nil, err
-	}
-	fmt.Println("input:", input, "num:", num)
-	if input == 255 {
-		return nil, nil
-	}
-	var t BiTreeNode
-	t.data = input
-	t.Left, _ = CreateBiTree()
-	t.Right, _ = CreateBiTree()
-	return &t, nil
-}
-
 func (node *BiTreeNode)PreBiTree(){
 	if node == nil{
-		//fmt.Println("tree empty now")
 		return
 	}
 
-	//fmt.Println("node.data=", node.data)
 	node.printNodeValue()
-	node.Left.PreBiTree()
-	node.Right.PreBiTree()
+	node.left.PreBiTree()
+	node.right.PreBiTree()
 }
 
 func (node *BiTreeNode)PostBiTree(){
 	if node == nil {
-		//fmt.Println("tree empty now")
 		return
 	}
 
-	node.Left.PostBiTree()
-	node.Right.PostBiTree()
-	//fmt.Println("node.data=", node.data)
+	node.left.PostBiTree()
+	node.right.PostBiTree()
 	node.printNodeValue()
 }
 
 func (node *BiTreeNode)InBiTree(){
 	if node == nil{
-		//fmt.Println("tree empty now")
 		return
 	}
 
-	node.Left.InBiTree()
-	//fmt.Println("node.data=", node.data)
+	node.left.InBiTree()
 	node.printNodeValue()
-	node.Right.InBiTree()
+	node.right.InBiTree()
 }
 
 func (node *BiTreeNode)Layers() int {
 	if node == nil{
 		return 0
 	}
-	leftLayers := node.Left.Layers()
-	rightLayers := node.Right.Layers()
+	leftLayers := node.left.Layers()
+	rightLayers := node.right.Layers()
 	if leftLayers > rightLayers{
 		return leftLayers + 1
 	} else {
 		return rightLayers + 1
 	}
+}
+
+func (node *BiTreeNode)BreathTraverse(){
+	if node == nil{
+		return
+	}
+	var slice []*BiTreeNode
+	fmt.Print(node.data, " ")
+	slice = append(slice, node.left)
+	slice = append(slice, node.right)
+	for {
+		if len(slice) == 0{
+			break
+		}
+		fmt.Print(slice[0].data, " ")
+		if slice[0].left != nil{
+			slice = append(slice, slice[0].left)
+		}
+		if slice[0].right != nil{
+			slice = append(slice, slice[0].right)
+		}
+		slice = slice[1:]
+	}
+
 }
