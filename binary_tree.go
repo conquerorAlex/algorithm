@@ -13,6 +13,7 @@ type BiTree interface{
 	Layers() int
 	GetLeft()*BiTreeNode
 	BreathTraverse()
+	DepthTraverse()
 }
 
 type BiTreeNode struct{
@@ -103,6 +104,9 @@ func (node *BiTreeNode)Layers() int {
 	}
 }
 
+/*
+广度优先遍历二叉树
+*/
 func (node *BiTreeNode)BreathTraverse(){
 	if node == nil{
 		return
@@ -123,6 +127,35 @@ func (node *BiTreeNode)BreathTraverse(){
 			slice = append(slice, slice[0].right)
 		}
 		slice = slice[1:]
+	}
+}
+
+/*
+深度优先遍历二叉树
+*/
+func (node *BiTreeNode)DepthTraverse(){
+	var slice []*BiTreeNode
+	if node == nil {
+		fmt.Println("traverse nil.node ignored.")
+		return
+	}
+	fmt.Print(node.data, " ")
+	slice = append(slice, node.right)
+	slice = append(slice, node.left)
+	for {
+		if len(slice) == 0{
+			break
+		}
+		fmt.Print(slice[len(slice) - 1].data, " ")
+		tmp := slice[len(slice) - 1]
+		slice = slice[:len(slice) - 1]
+		if tmp.right != nil{
+			slice = append(slice, tmp.right)
+		}
+		if tmp.left != nil{
+			slice = append(slice, tmp.left)
+		}
+
 	}
 
 }

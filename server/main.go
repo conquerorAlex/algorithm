@@ -32,4 +32,7 @@ func main() {
 
 	fmt.Println("\nbreathTraverse")
 	biTree.BreathTraverse()
+
+	fmt.Println("\ndepthTraverse")
+	biTree.DepthTraverse()
 }
